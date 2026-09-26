@@ -1,0 +1,6 @@
+interface:
+  display_name: "Gesture Globe Delivery"
+  short_description: "Execute the Gesture Globe backlog safely, one verified task at a time."
+  default_prompt: "Use $gesture-globe-delivery to inspect the repository, select the next runnable task, implement it within scope, run its gates, persist evidence, and stop on blockers."
+policy:
+  allow_implicit_invocation: false

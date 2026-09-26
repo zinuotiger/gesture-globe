@@ -1,0 +1,3248 @@
+{
+  "schema_version": "1.0",
+  "project": "Gesture Globe",
+  "requirements_document": "docs/Gesture_Globe_实施级需求规格_v3.0.md",
+  "task_count": 84,
+  "milestones": [
+    {
+      "id": "MS-0",
+      "name": "工程基线",
+      "task_ids": [
+        "TASK-001",
+        "TASK-002",
+        "TASK-003",
+        "TASK-004",
+        "TASK-005",
+        "TASK-006",
+        "TASK-007",
+        "TASK-008"
+      ],
+      "manual_gate_task_ids": []
+    },
+    {
+      "id": "MS-1",
+      "name": "Globe Engine",
+      "task_ids": [
+        "TASK-101",
+        "TASK-102",
+        "TASK-103",
+        "TASK-104",
+        "TASK-105",
+        "TASK-106",
+        "TASK-107",
+        "TASK-108",
+        "TASK-109",
+        "TASK-110"
+      ],
+      "manual_gate_task_ids": []
+    },
+    {
+      "id": "MS-2",
+      "name": "Camera",
+      "task_ids": [
+        "TASK-201",
+        "TASK-202",
+        "TASK-203",
+        "TASK-204",
+        "TASK-205",
+        "TASK-206",
+        "TASK-207",
+        "TASK-208"
+      ],
+      "manual_gate_task_ids": [
+        "TASK-208"
+      ]
+    },
+    {
+      "id": "MS-3",
+      "name": "Vision Worker",
+      "task_ids": [
+        "TASK-301",
+        "TASK-302",
+        "TASK-303",
+        "TASK-304",
+        "TASK-305",
+        "TASK-306",
+        "TASK-307",
+        "TASK-308",
+        "TASK-309",
+        "TASK-310"
+      ],
+      "manual_gate_task_ids": []
+    },
+    {
+      "id": "MS-4",
+      "name": "Gesture Engine",
+      "task_ids": [
+        "TASK-401",
+        "TASK-402",
+        "TASK-403",
+        "TASK-404",
+        "TASK-405",
+        "TASK-406",
+        "TASK-407",
+        "TASK-408",
+        "TASK-409",
+        "TASK-410",
+        "TASK-411",
+        "TASK-412"
+      ],
+      "manual_gate_task_ids": [
+        "TASK-412"
+      ]
+    },
+    {
+      "id": "MS-5",
+      "name": "Interaction",
+      "task_ids": [
+        "TASK-501",
+        "TASK-502",
+        "TASK-503",
+        "TASK-504",
+        "TASK-505",
+        "TASK-506",
+        "TASK-507",
+        "TASK-508"
+      ],
+      "manual_gate_task_ids": []
+    },
+    {
+      "id": "MS-6",
+      "name": "Geo 与 UI",
+      "task_ids": [
+        "TASK-601",
+        "TASK-602",
+        "TASK-603",
+        "TASK-604",
+        "TASK-605",
+        "TASK-606",
+        "TASK-607",
+        "TASK-608",
+        "TASK-609",
+        "TASK-610",
+        "TASK-611",
+        "TASK-612"
+      ],
+      "manual_gate_task_ids": []
+    },
+    {
+      "id": "MS-7",
+      "name": "质量与发布",
+      "task_ids": [
+        "TASK-701",
+        "TASK-702",
+        "TASK-703",
+        "TASK-704",
+        "TASK-705",
+        "TASK-706",
+        "TASK-707",
+        "TASK-708",
+        "TASK-709",
+        "TASK-710"
+      ],
+      "manual_gate_task_ids": [
+        "TASK-706",
+        "TASK-707",
+        "TASK-708",
+        "TASK-710"
+      ]
+    },
+    {
+      "id": "MS-8",
+      "name": "Agent（P2）",
+      "task_ids": [
+        "TASK-801",
+        "TASK-802",
+        "TASK-803",
+        "TASK-804",
+        "TASK-805",
+        "TASK-806"
+      ],
+      "manual_gate_task_ids": []
+    }
+  ],
+  "protected_paths": [
+    ".git/**",
+    "docs/Gesture_Globe_实施级需求规格_v3.0.md",
+    ".agents/skills/gesture-globe-delivery/references/task-manifest.json"
+  ],
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "milestone": "MS-0",
+      "title": "创建 Vite + TypeScript strict 工程与基础页面",
+      "dependency_expression": "无",
+      "depends_on": [],
+      "completion_standard": "dev/build 可运行；main.ts 仅装配",
+      "allowed_paths": [
+        "index.html",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "tsconfig*.json",
+        "eslint.config.*",
+        ".eslintrc*",
+        ".prettierrc*",
+        ".github/workflows/**",
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "public/**",
+        "docs/**",
+        "AGENTS.md",
+        ".agents/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "APP",
+        "CFG",
+        "QA"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-002",
+      "milestone": "MS-0",
+      "title": "配置 ESLint、格式化、类型检查和命令",
+      "dependency_expression": "001",
+      "depends_on": [
+        "TASK-001"
+      ],
+      "completion_standard": "lint/format/typecheck 通过",
+      "allowed_paths": [
+        "index.html",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "tsconfig*.json",
+        "eslint.config.*",
+        ".eslintrc*",
+        ".prettierrc*",
+        ".github/workflows/**",
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "public/**",
+        "docs/**",
+        "AGENTS.md",
+        ".agents/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "APP",
+        "CFG",
+        "QA"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-003",
+      "milestone": "MS-0",
+      "title": "建立 12 模块目录、公开 index 与依赖规则",
+      "dependency_expression": "001",
+      "depends_on": [
+        "TASK-001"
+      ],
+      "completion_standard": "无反向/深层私有导入",
+      "allowed_paths": [
+        "index.html",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "tsconfig*.json",
+        "eslint.config.*",
+        ".eslintrc*",
+        ".prettierrc*",
+        ".github/workflows/**",
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "public/**",
+        "docs/**",
+        "AGENTS.md",
+        ".agents/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "APP",
+        "CFG",
+        "QA"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-004",
+      "milestone": "MS-0",
+      "title": "实现 shared DTO、AppError、EventEnvelope",
+      "dependency_expression": "002",
+      "depends_on": [
+        "TASK-002"
+      ],
+      "completion_standard": "类型测试与 schemaVersion 齐全",
+      "allowed_paths": [
+        "index.html",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "tsconfig*.json",
+        "eslint.config.*",
+        ".eslintrc*",
+        ".prettierrc*",
+        ".github/workflows/**",
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "public/**",
+        "docs/**",
+        "AGENTS.md",
+        ".agents/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "APP",
+        "CFG",
+        "QA"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-005",
+      "milestone": "MS-0",
+      "title": "实现 ConfigSchema/defaults/跨字段校验",
+      "dependency_expression": "004",
+      "depends_on": [
+        "TASK-004"
+      ],
+      "completion_standard": "非法配置测试通过",
+      "allowed_paths": [
+        "index.html",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "tsconfig*.json",
+        "eslint.config.*",
+        ".eslintrc*",
+        ".prettierrc*",
+        ".github/workflows/**",
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "public/**",
+        "docs/**",
+        "AGENTS.md",
+        ".agents/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "APP",
+        "CFG",
+        "QA"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-006",
+      "milestone": "MS-0",
+      "title": "搭建 Vitest、Playwright 与 fixture 目录",
+      "dependency_expression": "002",
+      "depends_on": [
+        "TASK-002"
+      ],
+      "completion_standard": "最小 unit/E2E 在 CI 可跑",
+      "allowed_paths": [
+        "index.html",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "tsconfig*.json",
+        "eslint.config.*",
+        ".eslintrc*",
+        ".prettierrc*",
+        ".github/workflows/**",
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "public/**",
+        "docs/**",
+        "AGENTS.md",
+        ".agents/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "APP",
+        "CFG",
+        "QA"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-007",
+      "milestone": "MS-0",
+      "title": "建立 AssetManifest/NOTICE/校验脚本",
+      "dependency_expression": "005",
+      "depends_on": [
+        "TASK-005"
+      ],
+      "completion_standard": "缺资产或许可证时构建失败",
+      "allowed_paths": [
+        "index.html",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "tsconfig*.json",
+        "eslint.config.*",
+        ".eslintrc*",
+        ".prettierrc*",
+        ".github/workflows/**",
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "public/**",
+        "docs/**",
+        "AGENTS.md",
+        ".agents/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "APP",
+        "CFG",
+        "QA"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-008",
+      "milestone": "MS-0",
+      "title": "建立 CI/本地 quality gate 和 build report 骨架",
+      "dependency_expression": "006,007",
+      "depends_on": [
+        "TASK-006",
+        "TASK-007"
+      ],
+      "completion_standard": "干净环境全命令通过",
+      "allowed_paths": [
+        "index.html",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "tsconfig*.json",
+        "eslint.config.*",
+        ".eslintrc*",
+        ".prettierrc*",
+        ".github/workflows/**",
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "public/**",
+        "docs/**",
+        "AGENTS.md",
+        ".agents/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "APP",
+        "CFG",
+        "QA"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-101",
+      "milestone": "MS-1",
+      "title": "SceneManager、renderer、camera、RAF、resize",
+      "dependency_expression": "008",
+      "depends_on": [
+        "TASK-008"
+      ],
+      "completion_standard": "空场景稳定渲染并可 dispose",
+      "allowed_paths": [
+        "src/globe/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "src/ui/**",
+        "tests/**",
+        "public/textures/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GLB"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-102",
+      "milestone": "MS-1",
+      "title": "EarthLayer 日间纹理、光照、星空、大气层",
+      "dependency_expression": "101,107",
+      "depends_on": [
+        "TASK-101",
+        "TASK-107"
+      ],
+      "completion_standard": "地球可辨认；资源许可可追溯",
+      "allowed_paths": [
+        "src/globe/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "src/ui/**",
+        "tests/**",
+        "public/textures/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GLB"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-103",
+      "milestone": "MS-1",
+      "title": "CameraRig 与边界纯逻辑",
+      "dependency_expression": "101",
+      "depends_on": [
+        "TASK-101"
+      ],
+      "completion_standard": "边界单测通过",
+      "allowed_paths": [
+        "src/globe/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "src/ui/**",
+        "tests/**",
+        "public/textures/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GLB"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-104",
+      "milestone": "MS-1",
+      "title": "OrbitControlAdapter 与鼠标/触摸板备用",
+      "dependency_expression": "103",
+      "depends_on": [
+        "TASK-103"
+      ],
+      "completion_standard": "拖动/滚轮可用且关闭平移",
+      "allowed_paths": [
+        "src/globe/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "src/ui/**",
+        "tests/**",
+        "public/textures/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GLB"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-105",
+      "milestone": "MS-1",
+      "title": "GlobeCommand、CommandExecutor",
+      "dependency_expression": "103",
+      "depends_on": [
+        "TASK-103"
+      ],
+      "completion_standard": "无摄像头可通过命令控制",
+      "allowed_paths": [
+        "src/globe/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "src/ui/**",
+        "tests/**",
+        "public/textures/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GLB"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-106",
+      "milestone": "MS-1",
+      "title": "TransitionController：RESET/FOCUS/取消",
+      "dependency_expression": "105",
+      "depends_on": [
+        "TASK-105"
+      ],
+      "completion_standard": "动画可被鼠标立即打断",
+      "allowed_paths": [
+        "src/globe/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "src/ui/**",
+        "tests/**",
+        "public/textures/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GLB"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-107",
+      "milestone": "MS-1",
+      "title": "DPR/全屏/ResizeObserver",
+      "dependency_expression": "101",
+      "depends_on": [
+        "TASK-101"
+      ],
+      "completion_standard": "目标分辨率不拉伸",
+      "allowed_paths": [
+        "src/globe/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "src/ui/**",
+        "tests/**",
+        "public/textures/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GLB"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-108",
+      "milestone": "MS-1",
+      "title": "LOW/MEDIUM/HIGH/AUTO 画质档",
+      "dependency_expression": "102,107",
+      "depends_on": [
+        "TASK-102",
+        "TASK-107"
+      ],
+      "completion_standard": "切档不丢视图",
+      "allowed_paths": [
+        "src/globe/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "src/ui/**",
+        "tests/**",
+        "public/textures/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GLB"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-109",
+      "milestone": "MS-1",
+      "title": "纹理失败与 WebGL context lost 降级",
+      "dependency_expression": "102",
+      "depends_on": [
+        "TASK-102"
+      ],
+      "completion_standard": "故障注入不白屏",
+      "allowed_paths": [
+        "src/globe/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "src/ui/**",
+        "tests/**",
+        "public/textures/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GLB"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-110",
+      "milestone": "MS-1",
+      "title": "Globe 单元、视觉回归与鼠标验收",
+      "dependency_expression": "101-109",
+      "depends_on": [
+        "TASK-101",
+        "TASK-102",
+        "TASK-103",
+        "TASK-104",
+        "TASK-105",
+        "TASK-106",
+        "TASK-107",
+        "TASK-108",
+        "TASK-109"
+      ],
+      "completion_standard": "MS-1 证据包完成",
+      "allowed_paths": [
+        "src/globe/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "src/ui/**",
+        "tests/**",
+        "public/textures/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GLB"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-201",
+      "milestone": "MS-2",
+      "title": "CapabilityDetector 与显式启用入口",
+      "dependency_expression": "008",
+      "depends_on": [
+        "TASK-008"
+      ],
+      "completion_standard": "首屏不请求摄像头",
+      "allowed_paths": [
+        "src/camera/**",
+        "src/app/**",
+        "src/ui/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "CAM",
+        "UI"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-202",
+      "milestone": "MS-2",
+      "title": "PermissionController 与 CameraErrorMapper",
+      "dependency_expression": "201",
+      "depends_on": [
+        "TASK-201"
+      ],
+      "completion_standard": "六类错误映射测试",
+      "allowed_paths": [
+        "src/camera/**",
+        "src/app/**",
+        "src/ui/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "CAM",
+        "UI"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-203",
+      "milestone": "MS-2",
+      "title": "StreamController start/stop/track 事件",
+      "dependency_expression": "202",
+      "depends_on": [
+        "TASK-202"
+      ],
+      "completion_standard": "关闭后 tracks ended",
+      "allowed_paths": [
+        "src/camera/**",
+        "src/app/**",
+        "src/ui/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "CAM",
+        "UI"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-204",
+      "milestone": "MS-2",
+      "title": "VideoSource metadata/尺寸/超时",
+      "dependency_expression": "203",
+      "depends_on": [
+        "TASK-203"
+      ],
+      "completion_standard": "零尺寸帧不提交",
+      "allowed_paths": [
+        "src/camera/**",
+        "src/app/**",
+        "src/ui/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "CAM",
+        "UI"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-205",
+      "milestone": "MS-2",
+      "title": "object-fit 与 CoordinateAdapter",
+      "dependency_expression": "204",
+      "depends_on": [
+        "TASK-204"
+      ],
+      "completion_standard": "镜像/裁切测试通过",
+      "allowed_paths": [
+        "src/camera/**",
+        "src/app/**",
+        "src/ui/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "CAM",
+        "UI"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-206",
+      "milestone": "MS-2",
+      "title": "CameraCard 预览、隐藏、关闭状态",
+      "dependency_expression": "203,205",
+      "depends_on": [
+        "TASK-203",
+        "TASK-205"
+      ],
+      "completion_standard": "隐藏≠关闭，按钮语义清楚",
+      "allowed_paths": [
+        "src/camera/**",
+        "src/app/**",
+        "src/ui/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "CAM",
+        "UI"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-207",
+      "milestone": "MS-2",
+      "title": "取消、迟到授权、连续启停测试",
+      "dependency_expression": "202-206",
+      "depends_on": [
+        "TASK-202",
+        "TASK-203",
+        "TASK-204",
+        "TASK-205",
+        "TASK-206"
+      ],
+      "completion_standard": "10 次无泄漏",
+      "allowed_paths": [
+        "src/camera/**",
+        "src/app/**",
+        "src/ui/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "CAM",
+        "UI"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-208",
+      "milestone": "MS-2",
+      "title": "真实摄像头 Chrome/Edge 基线验收",
+      "dependency_expression": "207",
+      "depends_on": [
+        "TASK-207"
+      ],
+      "completion_standard": "记录设备/版本/限制",
+      "allowed_paths": [
+        "src/camera/**",
+        "src/app/**",
+        "src/ui/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "CAM",
+        "UI"
+      ],
+      "manual_gate": true,
+      "manual_gate_note": "需要真实摄像头在 Chrome/Edge 中完成并记录设备、浏览器版本和限制。",
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-301",
+      "milestone": "MS-3",
+      "title": "固定模型/WASM 资产与本地路径",
+      "dependency_expression": "007",
+      "depends_on": [
+        "TASK-007"
+      ],
+      "completion_standard": "无 latest URL",
+      "allowed_paths": [
+        "src/vision/**",
+        "src/workers/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "scripts/**",
+        "public/models/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "VIS"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-302",
+      "milestone": "MS-3",
+      "title": "VisionRequest/Response 联合与契约测试",
+      "dependency_expression": "004",
+      "depends_on": [
+        "TASK-004"
+      ],
+      "completion_standard": "未知版本明确失败",
+      "allowed_paths": [
+        "src/vision/**",
+        "src/workers/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "scripts/**",
+        "public/models/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "VIS"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-303",
+      "milestone": "MS-3",
+      "title": "vision.worker 初始化/READY/ERROR",
+      "dependency_expression": "301,302",
+      "depends_on": [
+        "TASK-301",
+        "TASK-302"
+      ],
+      "completion_standard": "模型可加载",
+      "allowed_paths": [
+        "src/vision/**",
+        "src/workers/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "scripts/**",
+        "public/models/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "VIS"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-304",
+      "milestone": "MS-3",
+      "title": "VisionWorkerClient 生命周期与 session 校验",
+      "dependency_expression": "303",
+      "depends_on": [
+        "TASK-303"
+      ],
+      "completion_standard": "迟到消息丢弃",
+      "allowed_paths": [
+        "src/vision/**",
+        "src/workers/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "scripts/**",
+        "public/models/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "VIS"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-305",
+      "milestone": "MS-3",
+      "title": "FrameScheduler latest-only 与目标 Hz",
+      "dependency_expression": "204,304",
+      "depends_on": [
+        "TASK-204",
+        "TASK-304"
+      ],
+      "completion_standard": "队列≤1",
+      "allowed_paths": [
+        "src/vision/**",
+        "src/workers/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "scripts/**",
+        "public/models/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "VIS"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-306",
+      "milestone": "MS-3",
+      "title": "ImageBitmap 转移、close 与帧元数据",
+      "dependency_expression": "305",
+      "depends_on": [
+        "TASK-305"
+      ],
+      "completion_standard": "20 分钟无 bitmap 泄漏",
+      "allowed_paths": [
+        "src/vision/**",
+        "src/workers/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "scripts/**",
+        "public/models/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "VIS"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-307",
+      "milestone": "MS-3",
+      "title": "ResultNormalizer→VisionFrame",
+      "dependency_expression": "303",
+      "depends_on": [
+        "TASK-303"
+      ],
+      "completion_standard": "21 点/分类/bbox DTO 正确",
+      "allowed_paths": [
+        "src/vision/**",
+        "src/workers/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "scripts/**",
+        "public/models/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "VIS"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-308",
+      "milestone": "MS-3",
+      "title": "stale/order/PAUSE/RESUME",
+      "dependency_expression": "304-307",
+      "depends_on": [
+        "TASK-304",
+        "TASK-305",
+        "TASK-306",
+        "TASK-307"
+      ],
+      "completion_standard": "恢复后清 pending",
+      "allowed_paths": [
+        "src/vision/**",
+        "src/workers/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "scripts/**",
+        "public/models/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "VIS"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-309",
+      "milestone": "MS-3",
+      "title": "HealthMonitor、心跳、一次重启",
+      "dependency_expression": "308",
+      "depends_on": [
+        "TASK-308"
+      ],
+      "completion_standard": "无重启风暴",
+      "allowed_paths": [
+        "src/vision/**",
+        "src/workers/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "scripts/**",
+        "public/models/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "VIS"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-310",
+      "milestone": "MS-3",
+      "title": "Mock Vision 与回放契约/性能测试",
+      "dependency_expression": "302-309",
+      "depends_on": [
+        "TASK-302",
+        "TASK-303",
+        "TASK-304",
+        "TASK-305",
+        "TASK-306",
+        "TASK-307",
+        "TASK-308",
+        "TASK-309"
+      ],
+      "completion_standard": "CI 无摄像头可跑",
+      "allowed_paths": [
+        "src/vision/**",
+        "src/workers/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "scripts/**",
+        "public/models/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "VIS"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-401",
+      "milestone": "MS-4",
+      "title": "landmarkMath 与 HandFeatures",
+      "dependency_expression": "310",
+      "depends_on": [
+        "TASK-310"
+      ],
+      "completion_standard": "纯函数覆盖≥85%",
+      "allowed_paths": [
+        "src/gesture/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GST"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-402",
+      "milestone": "MS-4",
+      "title": "PrimaryHandSelector 与 localId 连续性",
+      "dependency_expression": "401",
+      "depends_on": [
+        "TASK-401"
+      ],
+      "completion_standard": "两手不跳换",
+      "allowed_paths": [
+        "src/gesture/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GST"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-403",
+      "milestone": "MS-4",
+      "title": "EMA、outlier、stale 与 anchor reset",
+      "dependency_expression": "401",
+      "depends_on": [
+        "TASK-401"
+      ],
+      "completion_standard": "跳帧不甩飞",
+      "allowed_paths": [
+        "src/gesture/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GST"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-404",
+      "milestone": "MS-4",
+      "title": "GestureStateMachine 通用框架",
+      "dependency_expression": "403",
+      "depends_on": [
+        "TASK-403"
+      ],
+      "completion_standard": "状态/释放/冷却测试",
+      "allowed_paths": [
+        "src/gesture/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GST"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-405",
+      "milestone": "MS-4",
+      "title": "Open Palm→ROTATE",
+      "dependency_expression": "402-404",
+      "depends_on": [
+        "TASK-402",
+        "TASK-403",
+        "TASK-404"
+      ],
+      "completion_standard": "固定序列 START/UPDATE/END",
+      "allowed_paths": [
+        "src/gesture/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GST"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-406",
+      "milestone": "MS-4",
+      "title": "Closed Fist 离合器抢占",
+      "dependency_expression": "405",
+      "depends_on": [
+        "TASK-405"
+      ],
+      "completion_standard": "无尾帧旋转",
+      "allowed_paths": [
+        "src/gesture/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GST"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-407",
+      "milestone": "MS-4",
+      "title": "Pinch 几何、滞后与 ZOOM",
+      "dependency_expression": "402-404",
+      "depends_on": [
+        "TASK-402",
+        "TASK-403",
+        "TASK-404"
+      ],
+      "completion_standard": "首帧无跳变",
+      "allowed_paths": [
+        "src/gesture/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GST"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-408",
+      "milestone": "MS-4",
+      "title": "Victory armed/cooldown→RESET",
+      "dependency_expression": "404",
+      "depends_on": [
+        "TASK-404"
+      ],
+      "completion_standard": "保持只触发一次",
+      "allowed_paths": [
+        "src/gesture/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GST"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-409",
+      "milestone": "MS-4",
+      "title": "Pointing pointer 与候选输出",
+      "dependency_expression": "402-404",
+      "depends_on": [
+        "TASK-402",
+        "TASK-403",
+        "TASK-404"
+      ],
+      "completion_standard": "指针稳定、未命中不选择",
+      "allowed_paths": [
+        "src/gesture/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GST"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-410",
+      "milestone": "MS-4",
+      "title": "GestureIntent schema、IntentMapper",
+      "dependency_expression": "405-409",
+      "depends_on": [
+        "TASK-405",
+        "TASK-406",
+        "TASK-407",
+        "TASK-408",
+        "TASK-409"
+      ],
+      "completion_standard": "phase 语义一致",
+      "allowed_paths": [
+        "src/gesture/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GST"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-411",
+      "milestone": "MS-4",
+      "title": "关键点回放夹具和调试状态",
+      "dependency_expression": "401-410",
+      "depends_on": [
+        "TASK-401",
+        "TASK-402",
+        "TASK-403",
+        "TASK-404",
+        "TASK-405",
+        "TASK-406",
+        "TASK-407",
+        "TASK-408",
+        "TASK-409",
+        "TASK-410"
+      ],
+      "completion_standard": "失败序列可复现",
+      "allowed_paths": [
+        "src/gesture/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GST"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-412",
+      "milestone": "MS-4",
+      "title": "真实手势第一轮矩阵与参数基线",
+      "dependency_expression": "411",
+      "depends_on": [
+        "TASK-411"
+      ],
+      "completion_standard": "形成 configVersion 报告",
+      "allowed_paths": [
+        "src/gesture/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GST"
+      ],
+      "manual_gate": true,
+      "manual_gate_note": "需要真人手势矩阵与 configVersion 报告；自动化只能准备夹具和记录表。",
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-501",
+      "milestone": "MS-5",
+      "title": "统一 InputIntent 与各输入适配器接口",
+      "dependency_expression": "410",
+      "depends_on": [
+        "TASK-410"
+      ],
+      "completion_standard": "所有来源同一入口",
+      "allowed_paths": [
+        "src/interaction/**",
+        "src/globe/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-502",
+      "milestone": "MS-5",
+      "title": "SourceLockManager 优先级/超时",
+      "dependency_expression": "501",
+      "depends_on": [
+        "TASK-501"
+      ],
+      "completion_standard": "鼠标抢占测试",
+      "allowed_paths": [
+        "src/interaction/**",
+        "src/globe/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-503",
+      "milestone": "MS-5",
+      "title": "IntentToCommand 映射与数值校验",
+      "dependency_expression": "501",
+      "depends_on": [
+        "TASK-501"
+      ],
+      "completion_standard": "非法值拒绝",
+      "allowed_paths": [
+        "src/interaction/**",
+        "src/globe/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-504",
+      "milestone": "MS-5",
+      "title": "连续命令限频/聚合、离散去重",
+      "dependency_expression": "503",
+      "depends_on": [
+        "TASK-503"
+      ],
+      "completion_standard": "高频不积压，触发不重复",
+      "allowed_paths": [
+        "src/interaction/**",
+        "src/globe/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-505",
+      "milestone": "MS-5",
+      "title": "Orbit/鼠标事件接入 M06",
+      "dependency_expression": "104,502",
+      "depends_on": [
+        "TASK-104",
+        "TASK-502"
+      ],
+      "completion_standard": "不再绕过命令总线",
+      "allowed_paths": [
+        "src/interaction/**",
+        "src/globe/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-506",
+      "milestone": "MS-5",
+      "title": "键盘快捷键与焦点冲突",
+      "dependency_expression": "502,503",
+      "depends_on": [
+        "TASK-502",
+        "TASK-503"
+      ],
+      "completion_standard": "输入框中不抢键",
+      "allowed_paths": [
+        "src/interaction/**",
+        "src/globe/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-507",
+      "milestone": "MS-5",
+      "title": "过渡取消、来源切换和 traceId",
+      "dependency_expression": "106,502-506",
+      "depends_on": [
+        "TASK-106",
+        "TASK-502",
+        "TASK-503",
+        "TASK-504",
+        "TASK-505",
+        "TASK-506"
+      ],
+      "completion_standard": "用户可立即打断",
+      "allowed_paths": [
+        "src/interaction/**",
+        "src/globe/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-508",
+      "milestone": "MS-5",
+      "title": "Frame→Intent→Command→View 集成测试",
+      "dependency_expression": "405-507",
+      "depends_on": [
+        "TASK-405",
+        "TASK-406",
+        "TASK-407",
+        "TASK-408",
+        "TASK-409",
+        "TASK-410",
+        "TASK-411",
+        "TASK-412",
+        "TASK-501",
+        "TASK-502",
+        "TASK-503",
+        "TASK-504",
+        "TASK-505",
+        "TASK-506",
+        "TASK-507"
+      ],
+      "completion_standard": "五手势链路可回放",
+      "allowed_paths": [
+        "src/interaction/**",
+        "src/globe/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-601",
+      "milestone": "MS-6",
+      "title": "ScreenMapper/NDC/EarthRaycaster",
+      "dependency_expression": "109,409",
+      "depends_on": [
+        "TASK-109",
+        "TASK-409"
+      ],
+      "completion_standard": "指向地球/背景准确",
+      "allowed_paths": [
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "public/data/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GEO",
+        "UI",
+        "APP"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-602",
+      "milestone": "MS-6",
+      "title": "GeoConvention/world↔lat/lon",
+      "dependency_expression": "601",
+      "depends_on": [
+        "TASK-601"
+      ],
+      "completion_standard": "10 城市回归通过",
+      "allowed_paths": [
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "public/data/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GEO",
+        "UI",
+        "APP"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-603",
+      "milestone": "MS-6",
+      "title": "CityRecord schema、数据与 CityIndex",
+      "dependency_expression": "007,602",
+      "depends_on": [
+        "TASK-007",
+        "TASK-602"
+      ],
+      "completion_standard": "≥100 城市且许可明确",
+      "allowed_paths": [
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "public/data/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GEO",
+        "UI",
+        "APP"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-604",
+      "milestone": "MS-6",
+      "title": "DwellSelector 漂移/取消/冷却",
+      "dependency_expression": "409,601",
+      "depends_on": [
+        "TASK-409",
+        "TASK-601"
+      ],
+      "completion_standard": "一次 selectionId",
+      "allowed_paths": [
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "public/data/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GEO",
+        "UI",
+        "APP"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-605",
+      "milestone": "MS-6",
+      "title": "MarkerManager 与遮挡",
+      "dependency_expression": "102,602",
+      "depends_on": [
+        "TASK-102",
+        "TASK-602"
+      ],
+      "completion_standard": "背面不透视",
+      "allowed_paths": [
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "public/data/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GEO",
+        "UI",
+        "APP"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-606",
+      "milestone": "MS-6",
+      "title": "LocationCard 与异步城市匹配",
+      "dependency_expression": "603-605",
+      "depends_on": [
+        "TASK-603",
+        "TASK-604",
+        "TASK-605"
+      ],
+      "completion_standard": "selectionId 防迟到",
+      "allowed_paths": [
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "public/data/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GEO",
+        "UI",
+        "APP"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-607",
+      "milestone": "MS-6",
+      "title": "AppStore selectors 与 TopStatusBar",
+      "dependency_expression": "004,201,304,410",
+      "depends_on": [
+        "TASK-004",
+        "TASK-201",
+        "TASK-304",
+        "TASK-410"
+      ],
+      "completion_standard": "状态一致",
+      "allowed_paths": [
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "public/data/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GEO",
+        "UI",
+        "APP"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-608",
+      "milestone": "MS-6",
+      "title": "Onboarding/准备检查/帮助",
+      "dependency_expression": "206,607",
+      "depends_on": [
+        "TASK-206",
+        "TASK-607"
+      ],
+      "completion_standard": "首次流程≤3步",
+      "allowed_paths": [
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "public/data/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GEO",
+        "UI",
+        "APP"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-609",
+      "milestone": "MS-6",
+      "title": "GestureFeedback、停留环、Camera overlay",
+      "dependency_expression": "604,607",
+      "depends_on": [
+        "TASK-604",
+        "TASK-607"
+      ],
+      "completion_standard": "UI 与算法同源计时",
+      "allowed_paths": [
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "public/data/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GEO",
+        "UI",
+        "APP"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-610",
+      "milestone": "MS-6",
+      "title": "ErrorCenter 与恢复 action",
+      "dependency_expression": "202,309,109",
+      "depends_on": [
+        "TASK-202",
+        "TASK-309",
+        "TASK-109"
+      ],
+      "completion_standard": "发生/影响/下一步完整",
+      "allowed_paths": [
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "public/data/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GEO",
+        "UI",
+        "APP"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-611",
+      "milestone": "MS-6",
+      "title": "SettingsPanel、偏好和恢复默认",
+      "dependency_expression": "005,108,609",
+      "depends_on": [
+        "TASK-005",
+        "TASK-108",
+        "TASK-609"
+      ],
+      "completion_standard": "运行时配置受控",
+      "allowed_paths": [
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "public/data/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GEO",
+        "UI",
+        "APP"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-612",
+      "milestone": "MS-6",
+      "title": "键盘/a11y/响应式/视觉回归",
+      "dependency_expression": "606-611",
+      "depends_on": [
+        "TASK-606",
+        "TASK-607",
+        "TASK-608",
+        "TASK-609",
+        "TASK-610",
+        "TASK-611"
+      ],
+      "completion_standard": "核心状态无裁切",
+      "allowed_paths": [
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "public/data/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "GEO",
+        "UI",
+        "APP"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-701",
+      "milestone": "MS-7",
+      "title": "MetricWindow、FPS/推理/丢帧指标",
+      "dependency_expression": "508",
+      "depends_on": [
+        "TASK-508"
+      ],
+      "completion_standard": "统计与 P95 单测",
+      "allowed_paths": [
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "docs/**",
+        "public/**",
+        ".github/**",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "AGENTS.md",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "DIA",
+        "QA",
+        "NFR",
+        "SEC"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-702",
+      "milestone": "MS-7",
+      "title": "LatencyTracer 与 traceId 可见延迟",
+      "dependency_expression": "507,701",
+      "depends_on": [
+        "TASK-507",
+        "TASK-701"
+      ],
+      "completion_standard": "capture→visible 可估算",
+      "allowed_paths": [
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "docs/**",
+        "public/**",
+        ".github/**",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "AGENTS.md",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "DIA",
+        "QA",
+        "NFR",
+        "SEC"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-703",
+      "milestone": "MS-7",
+      "title": "EventRingBuffer、HealthEvaluator、诊断面板",
+      "dependency_expression": "701,702",
+      "depends_on": [
+        "TASK-701",
+        "TASK-702"
+      ],
+      "completion_standard": "固定容量，UI≤4Hz",
+      "allowed_paths": [
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "docs/**",
+        "public/**",
+        ".github/**",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "AGENTS.md",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "DIA",
+        "QA",
+        "NFR",
+        "SEC"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-704",
+      "milestone": "MS-7",
+      "title": "低 FPS/高延迟自适应策略",
+      "dependency_expression": "108,305,703",
+      "depends_on": [
+        "TASK-108",
+        "TASK-305",
+        "TASK-703"
+      ],
+      "completion_standard": "降档有阈值与恢复条件",
+      "allowed_paths": [
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "docs/**",
+        "public/**",
+        ".github/**",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "AGENTS.md",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "DIA",
+        "QA",
+        "NFR",
+        "SEC"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-705",
+      "milestone": "MS-7",
+      "title": "完整错误/故障注入 E2E",
+      "dependency_expression": "610",
+      "depends_on": [
+        "TASK-610"
+      ],
+      "completion_standard": "所有 P0 故障不白屏",
+      "allowed_paths": [
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "docs/**",
+        "public/**",
+        ".github/**",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "AGENTS.md",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "DIA",
+        "QA",
+        "NFR",
+        "SEC"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-706",
+      "milestone": "MS-7",
+      "title": "隐私、网络、存储和资源释放验收",
+      "dependency_expression": "207,306,705",
+      "depends_on": [
+        "TASK-207",
+        "TASK-306",
+        "TASK-705"
+      ],
+      "completion_standard": "无帧上传，tracks ended",
+      "allowed_paths": [
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "docs/**",
+        "public/**",
+        ".github/**",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "AGENTS.md",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "DIA",
+        "QA",
+        "NFR",
+        "SEC"
+      ],
+      "manual_gate": true,
+      "manual_gate_note": "需要人工核对网络、存储、摄像头占用和资源释放证据。",
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-707",
+      "milestone": "MS-7",
+      "title": "20 分钟稳定性与慢推理测试",
+      "dependency_expression": "703,704",
+      "depends_on": [
+        "TASK-703",
+        "TASK-704"
+      ],
+      "completion_standard": "无持续内存/延迟增长",
+      "allowed_paths": [
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "docs/**",
+        "public/**",
+        ".github/**",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "AGENTS.md",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "DIA",
+        "QA",
+        "NFR",
+        "SEC"
+      ],
+      "manual_gate": true,
+      "manual_gate_note": "需要持续运行与慢推理环境数据；自动化可以执行，但不得在未观察结果时声称通过。",
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-708",
+      "milestone": "MS-7",
+      "title": "Chrome/Edge 真实手势最终矩阵",
+      "dependency_expression": "412,612,707",
+      "depends_on": [
+        "TASK-412",
+        "TASK-612",
+        "TASK-707"
+      ],
+      "completion_standard": "达到或记录偏差",
+      "allowed_paths": [
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "docs/**",
+        "public/**",
+        ".github/**",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "AGENTS.md",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "DIA",
+        "QA",
+        "NFR",
+        "SEC"
+      ],
+      "manual_gate": true,
+      "manual_gate_note": "需要 Chrome/Edge 真实手势最终矩阵；不得只凭 mock 或无头测试通过。",
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-709",
+      "milestone": "MS-7",
+      "title": "README、架构、调参、限制、NOTICE",
+      "dependency_expression": "全部",
+      "depends_on": [
+        "TASK-001",
+        "TASK-002",
+        "TASK-003",
+        "TASK-004",
+        "TASK-005",
+        "TASK-006",
+        "TASK-007",
+        "TASK-008",
+        "TASK-101",
+        "TASK-102",
+        "TASK-103",
+        "TASK-104",
+        "TASK-105",
+        "TASK-106",
+        "TASK-107",
+        "TASK-108",
+        "TASK-109",
+        "TASK-110",
+        "TASK-201",
+        "TASK-202",
+        "TASK-203",
+        "TASK-204",
+        "TASK-205",
+        "TASK-206",
+        "TASK-207",
+        "TASK-208",
+        "TASK-301",
+        "TASK-302",
+        "TASK-303",
+        "TASK-304",
+        "TASK-305",
+        "TASK-306",
+        "TASK-307",
+        "TASK-308",
+        "TASK-309",
+        "TASK-310",
+        "TASK-401",
+        "TASK-402",
+        "TASK-403",
+        "TASK-404",
+        "TASK-405",
+        "TASK-406",
+        "TASK-407",
+        "TASK-408",
+        "TASK-409",
+        "TASK-410",
+        "TASK-411",
+        "TASK-412",
+        "TASK-501",
+        "TASK-502",
+        "TASK-503",
+        "TASK-504",
+        "TASK-505",
+        "TASK-506",
+        "TASK-507",
+        "TASK-508",
+        "TASK-601",
+        "TASK-602",
+        "TASK-603",
+        "TASK-604",
+        "TASK-605",
+        "TASK-606",
+        "TASK-607",
+        "TASK-608",
+        "TASK-609",
+        "TASK-610",
+        "TASK-611",
+        "TASK-612",
+        "TASK-701",
+        "TASK-702",
+        "TASK-703",
+        "TASK-704",
+        "TASK-705",
+        "TASK-706",
+        "TASK-707",
+        "TASK-708"
+      ],
+      "completion_standard": "公开仓库可理解复现",
+      "allowed_paths": [
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "docs/**",
+        "public/**",
+        ".github/**",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "AGENTS.md",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "DIA",
+        "QA",
+        "NFR",
+        "SEC"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-710",
+      "milestone": "MS-7",
+      "title": "发布构建、preview smoke、证据包和演示视频脚本",
+      "dependency_expression": "705-709",
+      "depends_on": [
+        "TASK-705",
+        "TASK-706",
+        "TASK-707",
+        "TASK-708",
+        "TASK-709"
+      ],
+      "completion_standard": "MS-7 DoD 全部通过",
+      "allowed_paths": [
+        "src/**",
+        "tests/**",
+        "scripts/**",
+        "docs/**",
+        "public/**",
+        ".github/**",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "vite.config.*",
+        "vitest.config.*",
+        "playwright.config.*",
+        "AGENTS.md",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "DIA",
+        "QA",
+        "NFR",
+        "SEC"
+      ],
+      "manual_gate": true,
+      "manual_gate_note": "需要人工复核发布证据包和演示脚本；视频本身不由自动测试替代。",
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-801",
+      "milestone": "MS-8",
+      "title": "ToolRegistry 与工具 schema",
+      "dependency_expression": "710",
+      "depends_on": [
+        "TASK-710"
+      ],
+      "completion_standard": "默认 feature flag 关闭",
+      "allowed_paths": [
+        "src/agent/**",
+        "src/interaction/**",
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "AGT",
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-802",
+      "milestone": "MS-8",
+      "title": "AgentContextBuilder 脱敏上下文",
+      "dependency_expression": "801",
+      "depends_on": [
+        "TASK-801"
+      ],
+      "completion_standard": "无帧/关键点/设备 ID",
+      "allowed_paths": [
+        "src/agent/**",
+        "src/interaction/**",
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "AGT",
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-803",
+      "milestone": "MS-8",
+      "title": "focus/reset/select 工具进入 M06",
+      "dependency_expression": "801,802",
+      "depends_on": [
+        "TASK-801",
+        "TASK-802"
+      ],
+      "completion_standard": "用户可抢占",
+      "allowed_paths": [
+        "src/agent/**",
+        "src/interaction/**",
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "AGT",
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-804",
+      "milestone": "MS-8",
+      "title": "地理编码适配与歧义确认",
+      "dependency_expression": "803",
+      "depends_on": [
+        "TASK-803"
+      ],
+      "completion_standard": "不猜地点",
+      "allowed_paths": [
+        "src/agent/**",
+        "src/interaction/**",
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "AGT",
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-805",
+      "milestone": "MS-8",
+      "title": "天气/路线适配、来源和时间",
+      "dependency_expression": "804",
+      "depends_on": [
+        "TASK-804"
+      ],
+      "completion_standard": "失败不伪造",
+      "allowed_paths": [
+        "src/agent/**",
+        "src/interaction/**",
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "AGT",
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    },
+    {
+      "id": "TASK-806",
+      "milestone": "MS-8",
+      "title": "进度、取消、撤销与安全测试",
+      "dependency_expression": "803-805",
+      "depends_on": [
+        "TASK-803",
+        "TASK-804",
+        "TASK-805"
+      ],
+      "completion_standard": "无半完成来源锁",
+      "allowed_paths": [
+        "src/agent/**",
+        "src/interaction/**",
+        "src/geo/**",
+        "src/ui/**",
+        "src/app/**",
+        "src/shared/**",
+        "src/config/**",
+        "tests/**",
+        "docs/**",
+        ".gesture-globe/**"
+      ],
+      "requirement_prefixes": [
+        "AGT",
+        "INT"
+      ],
+      "manual_gate": false,
+      "manual_gate_note": null,
+      "default_gate_commands": [
+        "npm run lint --if-present",
+        "npm run typecheck --if-present",
+        "npm test -- --runInBand",
+        "npm run build --if-present"
+      ]
+    }
+  ]
+}

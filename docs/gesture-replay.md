@@ -1,0 +1,9 @@
+# Reproducing gesture sequences
+
+Run the installed Vitest CLI against tests/integration/gesture-replay.test.mjs. tests/fixtures/gesture-replays.mjs owns seven FIRST_PARTY synthetic numeric cases: five modes, simultaneous priority, reordered two-hand slots, loss, 160ms anchor gap, 240ms identity reacquisition gap and 60 seconds of virtual stationary input. Each fixture includes an ID, schema and configVersion. tests/support/gesture-replay.mjs validates provenance/config, clones input and synchronously feeds the real GestureEngine. No model, camera, network, sleeps or production mock path is involved.
+
+The returned in-memory report includes fixture ID, SHA-256 of the actual validated configuration, per-frame intents and redacted debug snapshots. Running the same fixture/config twice must match exactly; source fixtures remain unchanged. Failure assertions identify fixture, frame and transition so an authored failing numeric sequence can be reproduced. The stationary test is virtual time, not a measured 60-second camera stability result.
+
+GestureDebugState is a frozen current snapshot, not a history: schema/config versions, frame/time, session-local hand identity, candidate/score, active mode, temporal counters, pinch ratio, Victory armed/cooldown, clutch and reset reason. Missing metadata uses null, never undefined/Infinity. Pointing/Victory phases reflect their own state instead of the previous rotation mode. No full landmarks, video, camera IDs or model-private objects are included. The engine retains no debug history.
+
+Do not record or export real VisionFrame/landmark streams. This task's replay feature deliberately accepts authored synthetic fixtures only; user privacy restrictions override general recording examples in the requirement document. Real failures may be described by scalar timing/counts and reproduction steps for consolidated acceptance, without raw-frame capture.

@@ -1,0 +1,43 @@
+{
+  "name": "gesture-globe",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.tools.json",
+    "test": "vitest run",
+    "build": "npm run assets:verify && npm run typecheck && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "lint": "eslint src tests scripts eslint.config.js vitest.config.ts playwright.config.ts vite.config.mjs",
+    "format:check": "prettier --check src tests scripts index.html package.json tsconfig.json tsconfig.tools.json eslint.config.js .prettierrc.json vitest.config.ts playwright.config.ts vite.config.mjs",
+    "format": "prettier --write src tests scripts index.html package.json tsconfig.json tsconfig.tools.json eslint.config.js .prettierrc.json vitest.config.ts playwright.config.ts vite.config.mjs",
+    "test:contract": "vitest run tests/contract",
+    "test:integration": "vitest run tests/integration",
+    "test:e2e": "playwright test",
+    "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run tests/unit",
+    "assets:fetch": "node scripts/fetch-assets.mjs",
+    "assets:verify": "node scripts/verify-assets.mjs",
+    "release:verify": "node scripts/verify-assets.mjs --release",
+    "quality": "node scripts/quality-gate.mjs",
+    "quality:clean": "node scripts/clean-quality.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.19.0",
+    "@types/three": "0.180.0",
+    "@vitest/coverage-v8": "5.0.2",
+    "eslint": "10.11.0",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.70.1",
+    "vite": "8.3.1",
+    "vitest": "5.0.2"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "0.10.32",
+    "three": "0.180.0"
+  }
+}

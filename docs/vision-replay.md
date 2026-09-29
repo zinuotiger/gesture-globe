@@ -1,0 +1,9 @@
+# Synthetic vision replay for CI
+
+`src/vision/MockVisionClient.ts` is a separate opt-in test entry, not the application default. It requires `features.mockVision=true` in a validated test/development configuration and rejects production builds. Every dataset declares schemaVersion, fixtureId and source=synthetic and contains validated VisionFrame DTOs. Current fixtures are first-party generated numeric grids; no user video or biometric history is recorded or exported.
+
+The mock transport runs the real VisionWorkerRuntime protocol and BitmapOwnership with an injected inference function. Tests explicitly call completeNext to resolve or fail the single pending inference. There is no simulated camera permission, network fetch, model initialization, random result or timer-based recognition. Replay uses submission metadata/current test clock and fixture hand observations, emitting mode SYNTHETIC_REPLAY. It cannot be evidence of real recognition. An exhausted sequence produces an explicit inference fault. Dispose cancels pending work and closes its bitmap.
+
+Run with the installed Node executable: `node node_modules/vitest/vitest.mjs run tests/contract/vision-replay.test.mjs tests/contract/vision-messages.test.mjs`. This command needs no camera or local model. It checks deterministic repetition, version/provenance/production guard, pause/resume, close and injected failures. Its 1000-cycle slow-inference test advances a deterministic clock: each 200ms inference has the same latency, one slot, no growing queue and 20000 busy drops. These are algorithmic backpressure assertions, not measured device FPS, latency or a 20-minute stability result.
+
+Actual SDK/model initialization, blank-image inference and real ImageBitmap transfer are separately exercised by integration tests. Actual camera, human gestures, device timing and long-duration stability remain consolidated acceptance debt. Never substitute replay for those gates.

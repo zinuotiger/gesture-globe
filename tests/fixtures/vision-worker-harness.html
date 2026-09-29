@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Local vision worker test</title>
+  </head>
+  <body>
+    <p>
+      Automated SDK initialization only. No camera permission or human evidence.
+    </p>
+    <script type="module">
+      import { createVisionWorker } from '/src/vision/createVisionWorker.ts';
+      import { VisionWorkerClient } from '/src/vision/VisionWorkerClient.ts';
+      globalThis.createTestVisionWorker = createVisionWorker;
+      globalThis.createTestVisionClient = () => new VisionWorkerClient();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Marker GPU test fixture</title>
+  </head>
+  <body>
+    <script type="module">
+      import {
+        Scene,
+        PerspectiveCamera,
+        WebGLRenderer,
+        Mesh,
+        SphereGeometry,
+        MeshBasicMaterial,
+      } from 'three';
+      import { MarkerManager } from '/src/geo/index.ts';
+      import { defaults } from '/src/config/index.ts';
+      const scene = new Scene(),
+        camera = new PerspectiveCamera(45, 1, 0.1, 100);
+      camera.position.z = 3;
+      camera.lookAt(0, 0, 0);
+      const renderer = new WebGLRenderer({ preserveDrawingBuffer: true });
+      renderer.setSize(256, 256);
+      document.body.append(renderer.domElement);
+      const earth = new Mesh(
+        new SphereGeometry(1, 64, 32),
+        new MeshBasicMaterial({ color: 0x203040 }),
+      );
+      scene.add(earth);
+      const marker = new MarkerManager(scene, defaults);
+      window.markerFixture = {
+        sample(front) {
+          marker.setSelection({
+            schemaVersion: 1,
+            selectionId: front ? 'front' : 'back',
+            selectedAtMs: 1,
+            latitude: 0,
+            longitude: front ? -90 : 90,
+          });
+          const state = marker.update(camera);
+          renderer.render(scene, camera);
+          const gl = renderer.getContext(),
+            pixel = new Uint8Array(4);
+          gl.readPixels(128, 128, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
+          return { visible: state.visible, pixel: [...pixel] };
+        },
+        dispose() {
+          marker.dispose();
+          earth.geometry.dispose();
+          earth.material.dispose();
+          renderer.dispose();
+          renderer.forceContextLoss();
+          renderer.domElement.remove();
+        },
+      };
+    </script>
+  </body>
+</html>

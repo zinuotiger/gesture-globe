@@ -1,9 +1,30 @@
-__pycache__/
-*.py[cod]
-*.log
+# Local governance and acceptance evidence stays on this machine.
+.gesture-globe/
+# Dependencies, generated output and caches.
 node_modules/
 dist/
 coverage/
 playwright-report/
 test-results/
 .vite/
+__pycache__/
+*.py[cod]
+*.log
+*.tsbuildinfo
+# External-local model weights and acquisition files.
+*.task
+*.part
+*.receipt.json
+*.attempt.json
+# Secrets and machine-specific settings.
+.env
+.env.*
+.npmrc
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+# Browser recordings and temporary traces.
+*.webm
+*.mp4
+trace.zip

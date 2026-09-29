@@ -1,0 +1,34 @@
+name: Quality
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  foundation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/node_modules/.cache/ms-playwright
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      # Fixed official upstream, verified SHA-256, ephemeral local testing only.
+      # Never upload/cache the model or distribute it with the source/build.
+      - run: npm run assets:fetch
+      - run: npm run assets:verify
+      - run: npx --no-install playwright install --with-deps chromium
+      - run: npm run quality
+      - name: Summarize checks and expected license block
+        if: always()
+        run: |
+          node --input-type=module <<'JS'
+          import { readFileSync, appendFileSync, existsSync } from 'node:fs';
+          const file = '.gesture-globe/reports/build-report.json';
+          if (!existsSync(file)) process.exit(0);
+          const report = JSON.parse(readFileSync(file, 'utf8'));
+          const lines = report.results.map(r => `| ${r.name} | ${r.status} | ${r.exitCode ?? 'NOT_RUN'} |`);
+          appendFileSync(process.env.GITHUB_STEP_SUMMARY, ['| Check | Result | Exit |', '| --- | --- | --- |', ...lines, '', 'Model redistribution: BLOCKED_PENDING_LICENSE. Manual acceptance: NOT_RUN. No deployment or release.'].join('\n'));
+          JS

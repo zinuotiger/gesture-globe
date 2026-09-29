@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Scene lifecycle test harness</title>
+    <style>
+      #scene:fullscreen {
+        width: 100vw !important;
+        height: 100vh !important;
+      }
+      #scene canvas {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="fullscreen">Fullscreen fixture</button>
+    <div id="scene" style="width: 800px; height: 500px"></div>
+    <script type="module">
+      import { SceneManager } from '/src/globe/index.ts';
+      import { defaults } from '/src/config/index.ts';
+      import {
+        CommandBus,
+        createMouseInput,
+        createStepInput,
+        bindKeyboardInput,
+      } from '/src/interaction/index.ts';
+      const root = document.querySelector('#scene');
+      document.querySelector('#fullscreen').onclick = () =>
+        root.requestFullscreen();
+      const scene = new SceneManager(root, defaults, (error) => {
+        throw error;
+      });
+      let inputCount = 0;
+      let commandId = 0;
+      let rejectInputs = false;
+      const bus = new CommandBus(
+        defaults,
+        () => performance.now(),
+        () => scene.getViewState(),
+        (command, source) =>
+          !rejectInputs && scene.applyCommand(command, source === 'mouse'),
+      );
+      const mouse = createMouseInput(bus, () => performance.now(), 'fixture');
+      scene.onBeforeRender(() => bus.flush());
+      const unbindKeyboard = bindKeyboardInput(
+        document,
+        createStepInput(
+          'keyboard',
+          bus,
+          () => performance.now(),
+          'fixture',
+          defaults,
+        ),
+      );
+      scene.enableOrbitControls({
+        start() {
+          inputCount++;
+          mouse.start();
+        },
+        move: mouse.move,
+        settle: mouse.settle,
+        cancel: mouse.cancel,
+      });
+      scene.start();
+      // Test-only dev fixture; never included in the production release list.
+      window.sceneHarness = {
+        view: () => scene.getViewState(),
+        aspect: () => scene.camera.aspect,
+        quality: () => scene.getQualityState(),
+        setQuality: (value) => scene.setQuality(value),
+        focus: (lat, lon) =>
+          scene.applyCommand({
+            schemaVersion: 1,
+            id: `focus-${++commandId}`,
+            at: performance.now(),
+            type: 'FOCUS_GEO',
+            lat,
+            lon,
+          }),
+        reset: () =>
+          scene.applyCommand({
+            schemaVersion: 1,
+            id: `reset-${++commandId}`,
+            at: performance.now(),
+            type: 'RESET_VIEW',
+          }),
+        inputs: () => inputCount,
+        rejectInputs: (value) => {
+          rejectInputs = value;
+        },
+        unbindKeyboard,
+        disable: () => scene.disableOrbitControls(),
+        enable: () => scene.enableOrbitControls(),
+        dispose: () => {
+          unbindKeyboard();
+          bus.dispose();
+          scene.dispose();
+        },
+      };
+    </script>
+  </body>
+</html>

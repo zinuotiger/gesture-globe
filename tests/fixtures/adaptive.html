@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Synthetic pressure, actual globe adaptation</title>
+  </head>
+  <body>
+    <main id="app"><header>合成压力策略测试（非设备性能验收）</header></main>
+    <script type="module">
+      import '/src/ui/styles.css';
+      import { defaults } from '/src/config/index.ts';
+      import { mountScene } from '/src/app/mountScene.ts';
+      import { PerformanceGovernor } from '/src/app/PerformanceGovernor.ts';
+      import { HealthEvaluator } from '/src/diagnostics/index.ts';
+      const scene = mountScene(document.querySelector('#app'), defaults);
+      const governor = new PerformanceGovernor(defaults),
+        health = new HealthEvaluator(defaults.diagnostics.health);
+      let atMs = 0;
+      window.adaptiveFixture = {
+        advance(bad, milliseconds) {
+          const end = atMs + milliseconds;
+          for (; atMs <= end; atMs += 250) {
+            const m = {
+              renderFps: bad ? 20 : 60,
+              inferenceP95: bad ? 200 : 20,
+              latencyP95: bad ? 250 : 60,
+              dropRatio: 0,
+              restarts: 0,
+            };
+            const alerts = health.evaluate(m, atMs);
+            const result = governor.observe({
+              ...m,
+              alerts,
+              atMs,
+              visible: true,
+              inferenceActive: true,
+            });
+            const quality = scene.getQualityState();
+            if (
+              quality.requested === 'AUTO' &&
+              quality.effective !== result.autoQuality
+            )
+              scene.setAutomaticQuality(result.autoQuality);
+          }
+          return {
+            quality: scene.getQualityState(),
+            adaptive: governor.snapshot(),
+          };
+        },
+        dispose: scene.dispose,
+      };
+    </script>
+  </body>
+</html>

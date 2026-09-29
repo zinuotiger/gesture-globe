@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stability observation preparation</title>
+  </head>
+  <body>
+    <section aria-label="稳定性采集">
+      <h1>真实运行观察工具 · 不自动签署验收</h1>
+      <p>
+        启动采集不会开启摄像头。请另行点击应用的启用手势控制。仅导出数值，不保存画面。保持前台20分钟；停止、隐藏或采样中断将如实记录。
+      </p>
+      <button id="record">开始20分钟采集</button>
+      <button id="stop-record">停止采集</button>
+      <button id="export">导出数值记录</button>
+      <output id="summary">NOT_RUN</output>
+    </section>
+    <main id="app">
+      <header>
+        Gesture Globe 稳定性观察<span class="privacy">摄像头已关闭</span>
+      </header>
+    </main>
+    <script type="module">
+      import '/src/ui/styles.css';
+      import { defaults } from '/src/config/index.ts';
+      import { mountRuntime } from '/src/app/mountRuntime.ts';
+      import { StabilityRecorder } from '/tests/support/StabilityRecorder.ts';
+      const runtime = mountRuntime(document.querySelector('#app'), defaults);
+      let recorder = null,
+        frame = null,
+        disposed = false;
+      let previousReadAt = -Infinity;
+      let instrumentationReads = 0;
+      const observe = (force = false) => {
+        if (!recorder?.active) return;
+        const atMs = performance.now();
+        if (!force && atMs - previousReadAt < 1000) return;
+        previousReadAt = atMs;
+        instrumentationReads++;
+        const metric = runtime.getMetrics();
+        const vision = runtime.getVisionMetrics();
+        recorder.observe(atMs, {
+          visible: !document.hidden,
+          heapBytes: performance.memory?.usedJSHeapSize ?? null,
+          renderFps: metric.renderFps,
+          inferenceP95: metric.inference.p95,
+          latencyMax: runtime.getLatency().captureToRender.max,
+          inFlight: vision?.frames.inFlight ?? null,
+          busyDrops: vision?.frames.droppedBusy ?? null,
+          errors: runtime.store.getState().errors.length,
+        });
+      };
+      const report = () => ({
+        task: 'TASK-707',
+        instrumentationReads,
+        configVersion: defaults.configVersion,
+        source: 'BROWSER_RUNTIME_OBSERVATIONS',
+        realCameraAcceptance: 'NOT_REVIEWED',
+        report: recorder?.snapshot() ?? null,
+      });
+      let previousTextAt = -Infinity;
+      const tick = () => {
+        if (disposed) return;
+        observe();
+        if (recorder && performance.now() - previousTextAt >= 1000) {
+          previousTextAt = performance.now();
+          const snapshot = recorder.snapshot();
+          document.querySelector('#summary').textContent =
+            `${snapshot.collection}; ${Math.floor(snapshot.elapsedMs / 1000)}s; ${snapshot.samples.length} samples; acceptance NOT_REVIEWED`;
+        }
+        frame = requestAnimationFrame(tick);
+      };
+      document.querySelector('#record').onclick = () => {
+        recorder = new StabilityRecorder();
+        document.querySelector('#record').disabled = true;
+        observe();
+      };
+      document.querySelector('#stop-record').onclick = () => recorder?.stop();
+      document.querySelector('#export').onclick = () => {
+        const url = URL.createObjectURL(
+          new Blob([JSON.stringify(report(), null, 2)], {
+            type: 'application/json',
+          }),
+        );
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'gesture-globe-stability-observations.json';
+        link.click();
+        URL.revokeObjectURL(url);
+      };
+      const onVisibility = () => observe(true);
+      document.addEventListener('visibilitychange', onVisibility);
+      const dispose = () => {
+        if (disposed) return;
+        disposed = true;
+        recorder?.stop();
+        if (frame !== null) cancelAnimationFrame(frame);
+        document.removeEventListener('visibilitychange', onVisibility);
+        runtime.dispose();
+      };
+      window.addEventListener('pagehide', dispose, { once: true });
+      window.stabilityFixture = {
+        report,
+        dispose,
+        observeNow: () => observe(true),
+      };
+      tick();
+    </script>
+  </body>
+</html>

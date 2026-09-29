@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><title>Bitmap ownership validation</title>
+  <body>
+    <h1>Synthetic ImageBitmap ownership check</h1>
+    <p>
+      No camera, human recognition or real application performance acceptance.
+      Images are generated locally and never stored.
+    </p>
+    <button id="run">Run 20-minute synthetic resource check</button>
+    <pre id="result">Not run</pre>
+    <script type="module">
+      globalThis.runBitmapOwnership = async ({
+        frames = 120,
+        durationMs = 0,
+      } = {}) => {
+        const worker = new Worker('/tests/fixtures/bitmap.worker.ts', {
+          type: 'module',
+        });
+        const canvas = new OffscreenCanvas(64, 32);
+        canvas.getContext('2d').fillRect(0, 0, 64, 32);
+        const start = performance.now();
+        let count = 0,
+          last;
+        try {
+          do {
+            const bitmap = await createImageBitmap(canvas);
+            const completion = new Promise((resolve, reject) => {
+              worker.onmessage = (e) => resolve(e.data);
+              worker.onerror = (e) => reject(new Error(e.message));
+            });
+            worker.postMessage(
+              {
+                type: 'PROCESS_FRAME',
+                schemaVersion: 1,
+                sessionId: 'synthetic-resource-check',
+                frameId: count,
+                captureTimeMs: performance.timeOrigin + performance.now(),
+                bitmap,
+                injectFailure: count % 17 === 0,
+              },
+              [bitmap],
+            );
+            if (bitmap.width !== 0)
+              throw new Error('Sender bitmap was not detached');
+            last = await completion;
+            count++;
+            if (
+              last.closedWidth !== 0 ||
+              last.metrics.active !== 0 ||
+              last.metrics.received !== last.metrics.closed
+            )
+              throw new Error('Bitmap ownership leak');
+            if (
+              last.metadata &&
+              (last.metadata.source.width !== 64 ||
+                last.metadata.source.height !== 32 ||
+                last.metadata.frameId !== count - 1)
+            )
+              throw new Error('Metadata mismatch');
+            if (durationMs) await new Promise(requestAnimationFrame);
+          } while (
+            durationMs ? performance.now() - start < durationMs : count < frames
+          );
+          return {
+            kind: 'SYNTHETIC_RESOURCE_CHECK',
+            elapsedMs: performance.now() - start,
+            frames: count,
+            metrics: last.metrics,
+            realCamera: false,
+          };
+        } finally {
+          worker.terminate();
+        }
+      };
+      document.getElementById('run').onclick = async () => {
+        const button = document.getElementById('run');
+        button.disabled = true;
+        document.getElementById('result').textContent =
+          'Running for 20 real minutes; keep this test tab visible.';
+        try {
+          document.getElementById('result').textContent = JSON.stringify(
+            await globalThis.runBitmapOwnership({ durationMs: 1200000 }),
+            null,
+            2,
+          );
+        } catch (error) {
+          document.getElementById('result').textContent =
+            'FAIL: ' + error.message;
+        } finally {
+          button.disabled = false;
+        }
+      };
+    </script>
+  </body>
+</html>

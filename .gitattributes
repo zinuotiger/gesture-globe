@@ -2,3 +2,13 @@
 *.bat text eol=crlf
 *.cmd text eol=crlf
 *.ps1 text eol=crlf
+
+# Asset SHA-256 checks require identical bytes on all platforms.
+public/textures/natural-earth-1-3.2.0-day-2048.jpg -text
+public/models/mediapipe-0.10.32/vision_wasm_internal.js -text
+public/models/mediapipe-0.10.32/vision_wasm_internal.wasm -text
+public/models/mediapipe-0.10.32/vision_wasm_nosimd_internal.js -text
+public/models/mediapipe-0.10.32/vision_wasm_nosimd_internal.wasm -text
+public/models/mediapipe-0.10.32/LICENSE.txt -text
+public/models/vision-worker-bootstrap.js -text
+public/data/cities-natural-earth-5.1.2.json -text

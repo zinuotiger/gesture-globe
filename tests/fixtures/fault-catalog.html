@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Error presentation catalog fixture</title>
+  </head>
+  <body>
+    <main id="app">
+      <header>错误呈现契约测试<span class="privacy">摄像头已关闭</span></header>
+      <section class="welcome"><h1>Gesture Globe</h1></section>
+    </main>
+    <script type="module">
+      import '/src/ui/styles.css';
+      import { defaults } from '/src/config/index.ts';
+      import { mountRuntime } from '/src/app/mountRuntime.ts';
+      import { monotonicNow } from '/src/shared/index.ts';
+      const runtime = mountRuntime(document.querySelector('#app'), defaults);
+      let sequence = 0;
+      window.faultCatalog = {
+        raise(row) {
+          for (const e of runtime.store.getState().errors)
+            runtime.store.dispatch({
+              type: 'ERROR_RESOLVED',
+              code: e.code,
+              atMs: monotonicNow(),
+            });
+          const atMs = monotonicNow();
+          runtime.store.dispatch({
+            type: 'ERROR_RAISED',
+            atMs,
+            error: {
+              schemaVersion: 1,
+              id: `catalog-${++sequence}`,
+              ...row,
+              atMs,
+              recoverable: row.severity !== 'FATAL',
+              retryPolicy: 'USER',
+              messageKey: '<img src=x onerror=alert(1)> secret-identity',
+              technical: { detail: 'C:/Users/private-device-id' },
+            },
+          });
+        },
+        dispose: runtime.dispose,
+      };
+    </script>
+  </body>
+</html>

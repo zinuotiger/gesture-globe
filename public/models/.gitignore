@@ -1,0 +1,5 @@
+# External-local model and acquisition receipts must never be committed.
+*.task
+*.part
+*.receipt.json
+*.attempt.json

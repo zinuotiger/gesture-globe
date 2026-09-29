@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Synthetic input, actual render timing fixture</title>
+  </head>
+  <body>
+    <main id="app"><header>合成输入延迟接线测试（非真人性能）</header></main>
+    <script type="module">
+      import '/src/ui/styles.css';
+      import { defaults } from '/src/config/index.ts';
+      import { mountScene } from '/src/app/mountScene.ts';
+      import { LatencyTracer } from '/src/diagnostics/index.ts';
+      import { monotonicNow } from '/src/shared/index.ts';
+      const tracer = new LatencyTracer({ capacity: 600, windowMs: 5000 });
+      const scene = mountScene(
+        document.querySelector('#app'),
+        defaults,
+        undefined,
+        undefined,
+        (at) => tracer.rendered(at),
+        (event) => {
+          if (event.type === 'INPUT_ACCEPTED')
+            tracer.associate(event.id, event.traceId);
+          if (event.type === 'COMMAND_RESULT' && event.accepted)
+            tracer.command(event.traceId, event.commandType, monotonicNow());
+          if (event.type === 'SOURCE_CANCELLED') tracer.cancel(event.traceId);
+        },
+      );
+      window.latencyFixture = {
+        snapshot: () => tracer.snapshot(monotonicNow()),
+        feed() {
+          const at = monotonicNow();
+          const bus = scene.getInteraction();
+          const base = {
+            schemaVersion: 1,
+            source: 'gesture',
+            kind: 'ROTATE',
+            timestampMs: at,
+            payload: {
+              yaw: 0.1,
+              pitch: 0,
+              dt: 0.016,
+              sessionId: 'synthetic-session',
+              sourceHandId: 'synthetic-hand',
+              confidence: 1,
+            },
+          };
+          const start = bus.dispatch({
+            ...base,
+            id: 'synthetic-start',
+            phase: 'START',
+            payload: { ...base.payload, yaw: 0 },
+          });
+          if (!start.accepted)
+            throw new Error(`Fixture START rejected: ${start.reason}`);
+          tracer.recordIntent('synthetic-update', {
+            kind: 'ROTATE',
+            captureMs: at,
+            resultMs: at,
+            intentMs: at,
+          });
+          return bus.dispatch({
+            ...base,
+            id: 'synthetic-update',
+            phase: 'UPDATE',
+          });
+        },
+        dispose() {
+          scene.dispose();
+          tracer.dispose();
+        },
+      };
+    </script>
+  </body>
+</html>

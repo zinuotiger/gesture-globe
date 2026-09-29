@@ -1,0 +1,16 @@
+# Known limitations
+
+| Area               | Current boundary                                                                                                                                                                                                            |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Human acceptance   | Physical permissions, camera indicators, real gestures, visual approval and device performance/stability remain deferred; see formal ledger and manual records.                                                             |
+| Model license      | EXTERNAL_LOCAL / UNRESOLVED. Official fixed-source local use is separately authorized. SDK Apache-2.0 does not license model redistribution. Public release stays BLOCKED_PENDING_LICENSE.                                  |
+| Production preview | Model is intentionally absent from dist; explicit gesture degradation is expected. Local dev with a verified model is a different environment.                                                                              |
+| Performance        | Headless timings are not reference-device targets. Next-render-submission latency is not display-photon latency; schema coverage is not full application coverage.                                                          |
+| Memory             | Main-thread performance.memory is optional and excludes Worker/GPU/native memory. A scalar delta cannot establish absence of leaks.                                                                                         |
+| Input              | P0 uses one primary hand. Desktop layouts and automated small-window usability do not certify mobile gesture support, VR, accessibility with every assistive device, or real camera diversity.                              |
+| Geography          | 243 Natural Earth cities are approximate offline matches, not complete/current geocoding. Unknown locations retain coordinates; no invented city.                                                                           |
+| Assets             | Main bundle exceeds500KB advisory threshold. Existing Vite optimizer deprecation is recorded; no warning suppression.                                                                                                       |
+| Extensions         | M12 tool gateway is default-off; explicit adapters have no configured live provider. Real service/visual acceptance remains deferred. No voice, account, cloud backend, realtime satellite data or paid service is enabled. |
+| Distribution       | No deployment/publication or remote CI claim. Third-party notices establish each asset's own scope, not a blanket project/model license.                                                                                    |
+
+The ledger distinguishes engineering completion, automated checks, deferred physical/external acceptance and full milestone gates. Historical failures and recovery authorizations remain in evidence rather than being rewritten as successes. Local synthetic fixtures explain and test mechanisms; they never serve as real-camera success records.

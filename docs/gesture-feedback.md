@@ -1,0 +1,9 @@
+# Gesture feedback (TASK-609)
+
+AppStore drives separate candidate and effective-operation labels. Candidates coalesce at validated ui.candidateHz=10 (100ms deadline); active/PAUSE changes bypass this display-only throttle. The existing top summary remains at 4Hz. Browser scheduling and real capture-to-visible latency require actual-device measurement; unit deadlines are not real latency evidence.
+
+Pointing feedback is a pointer, hit/miss label and SVG arc. Its progress and frozen center come directly from DwellSelector; render updates never accumulate elapsed time. Drift, cancellation, UI occlusion, lost hits and stale input use the same selector and pipeline. The normalized ring uses the same radius as the algorithm, hence an ellipse on a nonsquare canvas. Marker selection still commits immediately before asynchronous city lookup.
+
+The App accepts a current validated/session-matched Vision DTO and maps its landmarks through the public Camera CoordinateAdapter (mirror exactly once, object-fit cover). UI receives only current CSS points, never MediaPipe objects. The current SVG is replaced each frame; hidden preview/skeleton, stale frames, pause and close clear it. No landmark history/frame export or storage. The current implementation draws a complete 21-point hand only when all points are inside the visible preview; partially cropped hands are omitted rather than extrapolated. Independent hide controls do not change stream/inference lifecycle. Preview border is outside the content box so overlay and mapping share exact geometry.
+
+Tests use explicit synthetic DTOs/streams for rendering and actual WebGL raycasting for pointing. They do not certify camera alignment on hardware, five real gestures, subjective visuals or actual latency. Those remain in final consolidated manual acceptance. Public model redistribution remains blocked.

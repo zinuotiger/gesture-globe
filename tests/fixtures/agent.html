@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Optional agent acceptance</title>
+  </head>
+  <body>
+    <main id="app"><header>Agent 工具验证 · 不请求摄像头</header></main>
+    <script type="module">
+      import '/src/ui/styles.css';
+      import { bootstrapApp, mountAgentControls } from '/src/app/index.ts';
+      import {
+        ToolRegistry,
+        registerViewTools,
+        ExternalJsonClient,
+        ExternalDataAdapters,
+        registerExternalDataTools,
+        GeocodingAdapter,
+        registerGeocodingTool,
+        AgentActionCoordinator,
+      } from '/src/agent/index.ts';
+      const app = bootstrapApp(document.querySelector('#app'), {
+        features: { agent: true },
+      });
+      const registry = new ToolRegistry(app.config);
+      if (app.agentPort) registerViewTools(registry, app.agentPort);
+      const endpoints = new URL(location.href).searchParams;
+      const clients = {};
+      for (const kind of ['weather', 'route']) {
+        const endpoint = endpoints.get(kind);
+        if (endpoint)
+          clients[kind] = new ExternalJsonClient(endpoint, app.config);
+      }
+      const data = new ExternalDataAdapters(clients, app.config);
+      if (app.agentPort)
+        registerExternalDataTools(registry, data, app.agentPort);
+      const geocodeUrl = endpoints.get('geocode');
+      const geocoding = new GeocodingAdapter(
+        geocodeUrl ? new ExternalJsonClient(geocodeUrl, app.config) : undefined,
+        app.config,
+      );
+      registerGeocodingTool(registry, geocoding);
+      const coordinator = new AgentActionCoordinator(
+        registry,
+        app.agentPort,
+        app.config,
+        geocoding,
+        data,
+      );
+      const panel = mountAgentControls(
+        document.querySelector('#app'),
+        coordinator,
+        app.config,
+      );
+      const dispose = () => {
+        panel.dispose();
+        app.dispose();
+      };
+      window.agentFixture = {
+        execute: (call) => coordinator.run(call),
+        snapshot: () => coordinator.snapshot(),
+        events: () => coordinator.getEvents(),
+        data: () => data.getState(),
+        view: () => app.agentPort?.readView(),
+        cancel: () => coordinator.cancel(),
+        dispose,
+      };
+      window.addEventListener('pagehide', dispose, { once: true });
+    </script>
+  </body>
+</html>

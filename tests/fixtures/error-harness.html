@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Error recovery fixture</title>
+  </head>
+  <body>
+    <main id="app">
+      <header>错误恢复测试</header>
+      <div class="welcome">
+        <p class="privacy">摄像头已关闭</p>
+        <h1>Gesture Globe</h1>
+      </div>
+    </main>
+    <script type="module">
+      import '/src/ui/styles.css';
+      import { defaults } from '/src/config/index.ts';
+      import { mountRuntime } from '/src/app/mountRuntime.ts';
+      import { monotonicNow } from '/src/shared/index.ts';
+      const runtime = mountRuntime(document.querySelector('#app'), defaults);
+      window.errorFixture = {
+        state: () => runtime.store.getState(),
+        seedSelection() {
+          runtime.store.dispatch({
+            type: 'SELECTION_COMMITTED',
+            atMs: monotonicNow(),
+            cityStatus: 'UNMATCHED',
+            value: {
+              schemaVersion: 1,
+              selectionId: 'recovery-fixture',
+              latitude: 10,
+              longitude: 20,
+              selectedAtMs: monotonicNow(),
+            },
+          });
+        },
+        dispose: () => runtime.dispose(),
+      };
+    </script>
+  </body>
+</html>

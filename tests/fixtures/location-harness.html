@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Location integration fixture</title>
+  </head>
+  <body>
+    <main id="app"></main>
+    <script type="module">
+      import '/src/ui/styles.css';
+      import { defaults } from '/src/config/index.ts';
+      import { mountScene } from '/src/app/mountScene.ts';
+      import { createInputAdapter } from '/src/interaction/index.ts';
+      import { monotonicNow } from '/src/shared/index.ts';
+      const app = mountScene(document.querySelector('#app'), defaults);
+      app.setPointerMapper((p, r) => ({
+        x: r.left + p.x * r.width,
+        y: r.top + p.y * r.height,
+      }));
+      const input = createInputAdapter(
+        'ui',
+        app.getInteraction(),
+        monotonicNow,
+        'fixture',
+      );
+      window.locationFixture = {
+        point(pointer) {
+          input.send('SELECT', 'UPDATE', { pointer });
+        },
+        end() {
+          input.send('SELECT', 'END', {});
+        },
+        async select(pointer = { x: 0.5, y: 0.5 }) {
+          const start = monotonicNow();
+          while (
+            monotonicNow() - start <=
+            defaults.point.dwellMs + defaults.vision.staleFrameMs
+          ) {
+            input.send('SELECT', 'UPDATE', { pointer });
+            await new Promise(requestAnimationFrame);
+          }
+          input.send('SELECT', 'END', {});
+        },
+        reset() {
+          input.send('RESET', 'TRIGGER', {});
+        },
+        dispose() {
+          app.dispose();
+        },
+      };
+    </script>
+  </body>
+</html>

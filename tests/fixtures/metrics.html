@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Actual metric wiring fixture</title>
+  </head>
+  <body>
+    <main id="app">
+      <header>指标接线测试<span class="privacy">摄像头已关闭</span></header>
+      <section class="welcome"><h1>指标</h1></section>
+    </main>
+    <script type="module">
+      import '/src/ui/styles.css';
+      import { defaults } from '/src/config/index.ts';
+      import { mountRuntime } from '/src/app/mountRuntime.ts';
+      const runtime = mountRuntime(document.querySelector('#app'), defaults);
+      window.metricsFixture = {
+        snapshot: runtime.getMetrics,
+        dispose: runtime.dispose,
+      };
+    </script>
+  </body>
+</html>

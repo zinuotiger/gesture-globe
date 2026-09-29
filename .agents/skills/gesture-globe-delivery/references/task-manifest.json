@@ -3244,5 +3244,44 @@
         "npm run build --if-present"
       ]
     }
-  ]
+  ],
+  "development_policy": {
+    "id": "GOV-004/GG-DEV-GATE-v2",
+    "deferred_tasks": {
+      "TASK-208": [
+        "TASK-709"
+      ],
+      "TASK-412": [
+        "TASK-508",
+        "TASK-708",
+        "TASK-709"
+      ],
+      "TASK-706": [
+        "TASK-709",
+        "TASK-710"
+      ],
+      "TASK-707": [
+        "TASK-708",
+        "TASK-709",
+        "TASK-710"
+      ],
+      "TASK-708": [
+        "TASK-709",
+        "TASK-710"
+      ],
+      "TASK-710": [
+        "TASK-801"
+      ]
+    },
+    "engineering_milestones": [
+      "MS-2",
+      "MS-3",
+      "MS-4",
+      "MS-5",
+      "MS-6",
+      "MS-7",
+      "MS-8"
+    ],
+    "joint_acceptance_after": "TASK-806"
+  }
 }

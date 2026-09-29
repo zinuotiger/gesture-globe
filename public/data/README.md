@@ -1,0 +1,7 @@
+# Local city dataset
+
+Natural Earth Populated Places1:110m version5.1.2;243 cities/capitals and significant settlements, not a complete or real-time gazetteer. Source https://naturalearth.s3.amazonaws.com/5.1.2/110m_cultural/ne_110m_populated_places.zip . Versioned archive acquired2026-09-27; actual receipt and archive retained under .gesture-globe/reports/TASK-603-source.*. Archive SHA25629b901a2ae0a745741c0642123480e31101ed723086c4d0cae657a8d722c3b28. Official license https://www.naturalearthdata.com/about/terms-of-use/ states map data are public domain. Authors: Natural Earth contributors. This does not affect the separate MediaPipe model.
+
+Reproduce without dependencies: py -3 tests/support/prepare-cities.py. It checks the exact archive hash/version/UTF8 declaration, reads DBF in memory without extracting paths, retains NE_ID and geographic LATITUDE/LONGITUDE, NAME_ZH (English fallback), ADM0NAME verbatim, and unique English aliases. Output sorted by stable ID. No inferred political labels or fabricated coordinates. JSON53430 bytes SHA25674ce4197efe312c7e36722a74392f52f4dab64211e16fab9db9d7a3db626e38b. Only the exact JSON is included in the approved release list; source archive/README are not copied to dist.
+
+Runtime validates schema, uniqueness, coordinate ranges, minimum100 records and exact asset integrity; nearest city requires configured150km threshold. No match means coordinates-only, never a guessed city. Upstream labels/positions are historical cartographic data and may be approximate/outdated.

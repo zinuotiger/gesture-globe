@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Camera mapping fixture</title>
+  </head>
+  <body>
+    <main><div class="welcome"></div></main>
+    <script type="module">
+      import '/src/ui/styles.css';
+      import { defaults } from '/src/config/index.ts';
+      import { mountCamera } from '/src/app/mountCamera.ts';
+      const camera = mountCamera(document.querySelector('main'), defaults);
+      window.cameraMapFixture = {
+        overlay() {
+          camera.showOverlay({
+            schemaVersion: 1,
+            sessionId: 'fixture',
+            frameId: 1,
+            captureTimeMs: performance.now(),
+            resultTimeMs: performance.now(),
+            inferenceMs: 0,
+            source: { width: 160, height: 90 },
+            hands: [
+              {
+                landmarks: Array.from({ length: 21 }, () => ({
+                  x: 0.25,
+                  y: 0.5,
+                  z: 0,
+                })),
+              },
+            ],
+          });
+        },
+        expire() {
+          camera.expireOverlay();
+        },
+        map() {
+          return camera.mapModelPointer(
+            { x: 0.25, y: 0.5 },
+            new DOMRect(100, 100, 800, 600),
+          );
+        },
+        dispose() {
+          camera.dispose();
+        },
+      };
+    </script>
+  </body>
+</html>

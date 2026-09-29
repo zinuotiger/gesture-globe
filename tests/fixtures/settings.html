@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Settings integration fixture</title>
+  </head>
+  <body>
+    <main id="app">
+      <header>
+        <span>Gesture Globe</span>
+        <p class="privacy">摄像头已关闭</p>
+      </header>
+      <div class="welcome"><h1>设置测试</h1></div>
+    </main>
+    <script type="module">
+      import '/src/ui/styles.css';
+      import { defaults } from '/src/config/index.ts';
+      import { mountRuntime } from '/src/app/mountRuntime.ts';
+      const runtime = mountRuntime(document.querySelector('#app'), defaults);
+      window.settingsFixture = {
+        state: () => runtime.store.getState(),
+        dispose: () => runtime.dispose(),
+      };
+    </script>
+  </body>
+</html>

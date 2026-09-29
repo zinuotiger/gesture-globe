@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="在浏览器中探索地球，摄像头由你主动开启。"
+    />
+    <title>Gesture Globe · 手势地球</title>
+  </head>
+  <body>
+    <main id="app">
+      <header>
+        <span class="brand">GESTURE GLOBE</span
+        ><span class="privacy">摄像头已关闭</span>
+      </header>
+      <section class="welcome" aria-labelledby="welcome-title">
+        <p class="eyebrow">探索，从这里开始</p>
+        <h1 id="welcome-title">让世界<br />触手可及。</h1>
+        <p>
+          用手势探索地球。图像仅在当前浏览器内处理，不录制、不上传，也不请求麦克风。
+        </p>
+        <p class="stage">基础页面已就绪，地球与手势模块尚未接入。</p>
+      </section>
+      <noscript
+        >请启用 JavaScript 以使用 Gesture Globe。摄像头不会自动开启。</noscript
+      >
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

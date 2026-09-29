@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Synthetic UI visual states</title>
+  </head>
+  <body>
+    <main id="app">
+      <header>
+        <span class="brand">GESTURE GLOBE</span
+        ><span class="privacy">摄像头已关闭</span>
+      </header>
+      <section class="welcome" aria-labelledby="welcome-title">
+        <p class="eyebrow">探索，从这里开始</p>
+        <h1 id="welcome-title">让世界<br />触手可及。</h1>
+        <p>
+          用手势探索地球。图像仅在当前浏览器内处理，不录制、不上传，也不请求麦克风。
+        </p>
+        <p class="stage">拖动旋转，滚轮缩放。</p>
+      </section>
+    </main>
+    <script type="module">
+      import '/src/ui/styles.css';
+      import { defaults } from '/src/config/index.ts';
+      import { mountRuntime } from '/src/app/mountRuntime.ts';
+      import {
+        createLocationCard,
+        createGestureFeedback,
+      } from '/src/ui/index.ts';
+      import { raiseAppError } from '/src/app/errorState.ts';
+      const root = document.querySelector('#app');
+      const runtime = mountRuntime(root, defaults);
+      const card = createLocationCard(document, {
+        clear() {
+          card.update({ selection: null, cityStatus: 'EMPTY' });
+        },
+        focus() {},
+        retry() {},
+      });
+      root.append(card.element);
+      const feedback = createGestureFeedback(document);
+      window.visualFixture = {
+        state: () => runtime.store.getState(),
+        seed() {
+          // Plain synthetic presentation state, never a recognition or device claim.
+          root.querySelector('.gesture-detail').replaceWith(feedback.element);
+          feedback.updateCandidate('候选：张掌 · 尚未执行');
+          feedback.updateEffective('当前操作：ROTATE');
+          card.update({
+            selection: {
+              schemaVersion: 1,
+              selectionId: 'visual-only',
+              latitude: 39.9,
+              longitude: 116.4,
+              selectedAtMs: 1,
+              nearestCity: {
+                id: 'fixture-city',
+                name: '用于检查长文本换行的地点名称',
+                countryOrRegion: '视觉测试',
+                distanceKm: 12.3,
+              },
+            },
+            cityStatus: 'MATCHED',
+          });
+          raiseAppError(runtime.store, 'E-GEO-001', 'M07', 'WARNING');
+        },
+        dispose() {
+          feedback.dispose();
+          card.dispose();
+          runtime.dispose();
+        },
+      };
+    </script>
+  </body>
+</html>

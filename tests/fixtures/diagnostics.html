@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Diagnostics integration fixture</title>
+  </head>
+  <body>
+    <main id="app">
+      <header>诊断接线<span class="privacy">摄像头已关闭</span></header>
+    </main>
+    <script type="module">
+      import '/src/ui/styles.css';
+      import { defaults } from '/src/config/index.ts';
+      import { mountRuntime } from '/src/app/mountRuntime.ts';
+      const runtime = mountRuntime(document.querySelector('#app'), defaults);
+      window.diagnosticsFixture = {
+        snapshot: runtime.getDiagnostics,
+        dispose: runtime.dispose,
+      };
+    </script>
+  </body>
+</html>
